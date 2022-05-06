@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/application
+    ports:
+      - 5051:5051
+    image: app:vue
+    container_name: vue-container
+    command: npm run serve
+    deploy:
+      resources:
+        limits:
+          cpus: 1.0
+          memory: 1024M
