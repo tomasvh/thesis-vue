@@ -1,15 +1,17 @@
-FROM node:17-alpine
+FROM node:17-alpine AS vue-builder
 
-WORKDIR /application
-
-COPY package.json .
-
-RUN npm install
+WORKDIR /app
 
 COPY . .
 
-RUN npm run build
+RUN npm install && npm run build
 
-EXPOSE 5051
+FROM nginx:alpine
 
-CMD [ "npm", "run", "serve" ]
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+COPY --from=vue-builder /app/dist .
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

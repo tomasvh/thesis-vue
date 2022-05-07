@@ -3,12 +3,11 @@ services:
     build:
       context: .
     volumes:
-      - .:/application
+      - .:/app
     ports:
-      - 5051:5051
+      - 80:8080
     image: app:vue
     container_name: vue-container
-    command: npm run serve
     deploy:
       resources:
         limits:
