@@ -1,17 +1,12 @@
-FROM node:17-alpine AS vue-builder
-
+FROM node:lts-alpine as vue-build-stage
 WORKDIR /app
-
+COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
-RUN npm install && npm run build
-
-FROM nginx:alpine
-
-WORKDIR /usr/share/nginx/html
-
-RUN rm -rf ./*
-
-COPY --from=vue-builder /app/dist .
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

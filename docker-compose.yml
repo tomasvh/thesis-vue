@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - 80:8080
+      - 8080:80
     image: app:vue
     container_name: vue-container
     deploy:
