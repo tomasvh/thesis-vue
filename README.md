@@ -1,4 +1,4 @@
-# bmc-blog
+# Bmc-Blog - Vue
 
 ## Project setup
 ```
